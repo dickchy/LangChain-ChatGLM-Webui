@@ -1,4 +1,5 @@
 import os
+import traceback
 from typing import List
 
 import gradio as gr
@@ -104,7 +105,7 @@ class KnowledgeBasedChatLLM:
         self.history_len = history_len
         self.top_k = top_k
         if web_content:
-            prompt_template = f"""基于以下已知信息，简洁3和专业的来回答用户的问题。
+            prompt_template = f"""基于以下已知信息，简洁和专业的来回答用户的问题。
                                 如果无法从中得到答案，请说 "根据已知信息无法回答该问题" 或 "没有提供足够的相关信息"，不允许在答案中添加编造成分，答案请使用中文。
                                 已知网络检索内容：{web_content}""" + """
                                 已知内容:
@@ -124,7 +125,10 @@ class KnowledgeBasedChatLLM:
                                 input_variables=["context", "question"])
         self.llm.history = history[
             -self.history_len:] if self.history_len > 0 else []
-        vector_store = FAISS.load_local('faiss_index', self.embeddings)
+        try:
+            vector_store = FAISS.load_local('faiss_index', self.embeddings)
+        except:
+            return {'query': query, 'result': '请先上传本地知识文件，并点击"知识库文件向量化"按钮', }
 
         knowledge_chain = RetrievalQA.from_llm(
             llm=self.llm,
@@ -169,7 +173,7 @@ def init_model():
         knowladge_based_chat_llm.llm._call("你好")
         return """初始模型已成功加载，可以开始对话"""
     except Exception as e:
-
+        traceback.print_exc()
         return """模型未成功加载，请重新选择模型后点击"重新加载模型"按钮"""
 
 

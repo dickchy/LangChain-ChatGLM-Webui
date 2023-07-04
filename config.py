@@ -19,11 +19,11 @@ COLLECTION_NAME='my_collection'
 
 
 # init model config
-init_llm = "ChatGLM-6B-int8"
+init_llm = "ChatGLM2-6B-int4"
 init_embedding_model = "text2vec-base"
 
 # model config
-embedding_model_dict = {
+embedding_model_dict = {k:f"D:/code/chatglm/models/{v}" for k,v in {
     "ernie-tiny": "nghuyong/ernie-3.0-nano-zh",
     "ernie-base": "nghuyong/ernie-3.0-base-zh",
     "ernie-medium": "nghuyong/ernie-3.0-medium-zh",
@@ -31,7 +31,7 @@ embedding_model_dict = {
     "text2vec-base": "GanymedeNil/text2vec-base-chinese",
     'simbert-base-chinese': 'WangZeJun/simbert-base-chinese',
     'paraphrase-multilingual-MiniLM-L12-v2': "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-}
+}.items()}
 
 
 llm_model_dict = {
@@ -39,7 +39,8 @@ llm_model_dict = {
         "ChatGLM-6B": "THUDM/chatglm-6b",
         "ChatGLM-6B-int4": "THUDM/chatglm-6b-int4",
         "ChatGLM-6B-int8": "THUDM/chatglm-6b-int8",
-        "ChatGLM-6b-int4-qe": "THUDM/chatglm-6b-int4-qe"
+        "ChatGLM-6b-int4-qe": "THUDM/chatglm-6b-int4-qe",
+        "ChatGLM2-6B-int4": "D:\\ai\\ChatGLM2-6b\\chatglm2-6b-int4\\",
     },
     "belle": {
         "BELLE-LLaMA-Local": "/pretrainmodel/belle",
